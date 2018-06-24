@@ -1,0 +1,17 @@
+<div>
+  user-detail works!
+  <ul>
+    <li *ngFor="let post of posts | async">
+      <strong>{{ post.title }}</strong><br/>
+      {{ post.content }}<br/>
+      <button (click)="onDelete(post.id)">delete</button>
+    </li>
+  </ul>
+  <input #titleInput>
+  <input #contentInput>
+  <button (click)="addPost()">Add Post</button>
+  <hr/>
+  <input type="file" (change)="uploadFile($event)"><br/>
+  {{ precentage }} %
+  <hr/>
+</div>
