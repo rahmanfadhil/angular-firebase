@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireStorage } from 'angularfire2/storage';
@@ -14,10 +14,12 @@ import { AngularFireStorage } from 'angularfire2/storage';
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.css']
 })
-export class UserDetailComponent implements OnInit {
+export class UserDetailComponent implements OnInit, OnDestroy {
   @ViewChild('titleInput') title: ElementRef
   @ViewChild('contentInput') content: ElementRef
   posts: Observable<any>
+  photoSubscription: Subscription
+  photo: string
   precentage: Observable<number>
 
   constructor(private afFirestore: AngularFirestore, private afStorage: AngularFireStorage) { }
@@ -48,6 +50,11 @@ export class UserDetailComponent implements OnInit {
         return { id, ...data }
       }))
     )
+    this.photoSubscription = this.afStorage.ref('photos').getDownloadURL().subscribe(url => this.photo = url)
     console.log(this.posts)
+  }
+
+  ngOnDestroy() {
+    this.photoSubscription.unsubscribe()
   }
 }

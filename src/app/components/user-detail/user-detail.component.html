@@ -11,7 +11,10 @@
   <input #contentInput>
   <button (click)="addPost()">Add Post</button>
   <hr/>
-  <input type="file" (change)="uploadFile($event)"><br/>
+  <img [src]="photo" width="300">
+  <br/>
+  <input type="file" (change)="uploadFile($event)">
+  <br/>
   {{ precentage }} %
   <hr/>
 </div>
